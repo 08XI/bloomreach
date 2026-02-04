@@ -13,8 +13,8 @@ export interface AttributeFilter {
   id: number;
   attribute: string | null;
   operator: string | null;
-  value: any;
-  value2?: any;
+  value: string | number;
+  value2?: string | number;
   type: 'string' | 'number' | null;
 }
 

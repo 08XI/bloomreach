@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, input, output, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AttributeFilter, EventProperty } from '../../models/filter.model';
+import { AttributeFilter, EventProperty, NUMBER_OPERATORS, STRING_OPERATORS } from '../../models/filter.model';
 import { CustomSelectComponent } from '../custom-select/custom-select.component';
 import { updateAttributeProperty, updateAttributeOperator } from '../../logic/filter.logic';
 
@@ -23,8 +23,8 @@ export class AttributeFilterComponent {
     return this.properties().map(p => p.property);
   });
 
-  stringOperators = ['equals', 'does not equal', 'contains', 'does not contain'];
-  numberOperators = ['equal to', 'in between', 'less than', 'greater than'];
+  stringOperators: string[] = STRING_OPERATORS;
+  numberOperators: string[] = NUMBER_OPERATORS;
 
   availableOperators = computed(() => {
     return this.attribute().type === 'number' ? this.numberOperators : this.stringOperators;

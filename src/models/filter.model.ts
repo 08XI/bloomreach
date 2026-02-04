@@ -25,3 +25,6 @@ export interface FunnelStep {
   selectedEvent: string | null;
   attributes: AttributeFilter[];
 }
+
+export const STRING_OPERATORS = ['equals', 'does not equal', 'contains', 'does not contain'];
+export const NUMBER_OPERATORS = ['equal to', 'in between', 'less than', 'greater than'];

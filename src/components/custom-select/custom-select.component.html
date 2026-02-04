@@ -1,0 +1,66 @@
+<div #rootEl class="select-container">
+  <button (click)="toggleDropdown()" type="button" class="select-button">
+    <span class="select-value">{{ selectedValue() || placeholder() }}</span>
+    <span class="select-icon-container">
+      <svg class="select-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10 3a.75.75 0 01.53.22l3.5 3.5a.75.75 0 01-1.06 1.06L10 4.81 6.53 8.28a.75.75 0 01-1.06-1.06l3.5-3.5A.75.75 0 0110 3zm-3.72 9.28a.75.75 0 011.06 0L10 15.19l3.47-3.47a.75.75 0 111.06 1.06l-4 4a.75.75 0 01-1.06 0l-4-4a.75.75 0 010-1.06z" clip-rule="evenodd" />
+      </svg>
+    </span>
+  </button>
+
+  @if (isOpen()) {
+    <div class="dropdown-menu">
+      
+      @if (hasTypeSelector()) {
+        <div class="type-selector">
+          <button 
+            (click)="typeChange.emit('string')"
+            class="type-tab"
+            [class.type-tab-active]="selectedType() === 'string'"
+            [class.type-tab-inactive]="selectedType() !== 'string'"
+          >
+            <svg class="type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 7V4H20V7M12 4V20M9 20H15" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="type-label">String</span>
+            <div class="type-indicator" [class.type-indicator-active]="selectedType() === 'string'" [class.type-indicator-inactive]="selectedType() !== 'string'"></div>
+          </button>
+          
+          <button 
+            (click)="typeChange.emit('number')"
+            class="type-tab"
+            [class.type-tab-active]="selectedType() === 'number'"
+            [class.type-tab-inactive]="selectedType() !== 'number'"
+          >
+            <svg class="type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M7 20l4-16m2 16l4-16M2 9h20M2 15h20" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="type-label">Number</span>
+            <div class="type-indicator" [class.type-indicator-active]="selectedType() === 'number'" [class.type-indicator-inactive]="selectedType() !== 'number'"></div>
+          </button>
+        </div>
+      } @else {
+        <div class="search-container">
+            <input 
+              type="text" 
+              [ngModel]="searchTerm()" 
+              (ngModelChange)="searchTerm.set($event)"
+              placeholder="Filter options..."
+              class="search-input"
+            >
+        </div>
+      }
+      <ul class="options-list">
+        @for (option of filteredOptions(); track option) {
+          <li (click)="selectOption(option)" class="option-item" [class.option-item-selected]="option === selectedValue()">
+            <span class="select-value">{{ option }}</span>
+          </li>
+        } @empty {
+           <li class="empty-state">
+            No options found.
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>

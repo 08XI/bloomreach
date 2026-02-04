@@ -1,0 +1,69 @@
+<div class="step-container">
+  <div class="step-content">
+    <div class="attribute-wrapper">
+      <div class="step-header">
+        <span>{{ stepIndex() }}. Step: {{ step().selectedEvent || "Unnamed step" }}</span>
+      </div>
+
+      <div class="step-body">
+        @if (!step().selectedEvent) {
+          <div class="event-selector-empty">
+            <app-custom-select 
+              [options]="allEvents()" 
+              placeholder="Select an event"
+              (selectionChange)="onEventSelect($event)">
+            </app-custom-select>
+          </div>
+        } @else {
+          <div class="event-and-attributes">
+            <div class="event-selector-wrapper" style="grid-column: 1; grid-row: 1">
+              <app-custom-select 
+                [options]="allEvents()"
+                [selectedValue]="step().selectedEvent"
+                (selectionChange)="onEventSelect($event)">
+              </app-custom-select>
+            </div>
+
+            @if (step().attributes.length === 0) {
+              <div style="grid-column: 3; grid-row: 1">
+                <button (click)="addAttributeFilter()" class="add-attribute-button">Add an event attribute</button>
+              </div>
+            } @else {
+              @for (attribute of step().attributes; track attribute.id; let i = $index) {
+                @if (i > 0) {
+                  <span class="and-label" [style.grid-column]="2" [style.grid-row]="i + 1">AND</span>
+                }
+                <div class="attribute-wrapper" [style.grid-column]="3" [style.grid-row]="i + 1">
+                  <app-attribute-filter
+                    [attribute]="attribute"
+                    [properties]="availableProperties()"
+                    (attributeChange)="updateAttribute($event, i)"
+                    (remove)="removeAttribute($event)"
+                  ></app-attribute-filter>
+                </div>
+              }
+            }
+            @if(step().attributes.length > 0) {
+              <div style="grid-column: 1; white-space: nowrap;">
+                <button (click)="addAttributeFilter()" class="refine-more-button">Refine more</button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+    
+    <div class="step-actions">
+       <button (click)="emitDuplicate()" title="Duplicate step" class="action-button">
+          <svg xmlns="http://www.w3.org/2000/svg" class="action-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+        </button>
+        <button (click)="emitRemove()" title="Remove step" class="action-button">
+          <svg xmlns="http://www.w3.org/2000/svg" class="action-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+        </button>
+    </div>
+  </div>
+</div>

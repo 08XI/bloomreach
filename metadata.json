@@ -1,0 +1,5 @@
+{
+  "name": "Customer Event Filter",
+  "description": "An interactive UI to build complex customer filters based on events and their attributes. Users can define multi-step funnels, refine criteria with various operators, and apply the generated filters.",
+  "requestFramePermissions": []
+}

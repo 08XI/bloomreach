@@ -1,0 +1,52 @@
+<div class="filter-row">
+  @if(attribute().attribute === null) {
+     <div class="select-wrapper">
+      <app-custom-select
+        [options]="propertyNames()"
+        placeholder="Select an attribute"
+        (selectionChange)="onAttributeSelected($event)"
+      ></app-custom-select>
+    </div>
+  } @else {
+    <div class="select-wrapper">
+       <app-custom-select
+        [options]="propertyNames()"
+        [selectedValue]="attribute().attribute"
+        (selectionChange)="onAttributeSelected($event)"
+      ></app-custom-select>
+    </div>
+    
+    <div class="select-wrapper">
+       <app-custom-select
+        [options]="availableOperators()"
+        [selectedValue]="attribute().operator"
+        [hasTypeSelector]="true"
+        [selectedType]="attribute().type"
+        (typeChange)="onTypeChange($event)"
+        (selectionChange)="onOperatorSelected($event)"
+      ></app-custom-select>
+    </div>
+
+    <input 
+      [type]="attribute().type === 'number' ? 'number' : 'text'"
+      [ngModel]="attribute().value"
+      (ngModelChange)="onValueChange($event)"
+      placeholder="Select a value"
+      class="value-input">
+
+    @if (attribute().operator === 'in between') {
+      <span class="separator-text">and</span>
+      <input 
+        [type]="attribute().type === 'number' ? 'number' : 'text'"
+        [ngModel]="attribute().value2"
+        (ngModelChange)="onValue2Change($event)"
+        class="value-input-small">
+    }
+  }
+
+  <button (click)="emitRemove()" title="Remove this event attribute" class="remove-button">
+    <svg xmlns="http://www.w3.org/2000/svg" class="remove-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+</div>

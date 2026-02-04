@@ -1,0 +1,38 @@
+<div class="app-container">
+  <div class="content-wrapper">
+    <div class="filter-card">
+      <div class="card-header">
+        <h1 class="card-title">CUSTOMER FILTER</h1>
+        <button (click)="discardFilters()" class="discard-button">Discard filters</button>
+      </div>
+
+      <div class="funnel-steps-list">
+        @for (step of funnelSteps(); track step.id; let i = $index) {
+          <app-funnel-step 
+            [step]="step" 
+            [stepIndex]="i + 1"
+            [allEvents]="allEvents"
+            (stepChange)="updateFunnelStep($event, i)"
+            (remove)="removeFunnelStep($event)"
+            (duplicate)="duplicateFunnelStep($event)"
+          />
+        }
+      </div>
+
+      <div class="add-step-container">
+        <button (click)="addFunnelStep()" class="add-step-button">
+          <svg xmlns="http://www.w3.org/2000/svg" class="add-step-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+          ADD FUNNEL STEP
+        </button>
+      </div>
+    </div>
+
+    <div class="apply-button-container">
+      <button (click)="applyFilters()" class="apply-button">
+        Apply Filters
+      </button>
+    </div>
+  </div>
+</div>
